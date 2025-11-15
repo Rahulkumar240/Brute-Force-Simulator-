@@ -1,0 +1,56 @@
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+
+    .navbar {
+      background-color: #1f2937;
+    }
+
+    .navbar-brand {
+      color: #00eaff !important;
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+      color: #f8fafc !important;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #60a5fa !important;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    main h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #60a5fa;
+    }
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #334155;
+      font-size: 1.1rem;
+    }
+
+    label:last-child {
+      border-bottom: none;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.3);
+    }

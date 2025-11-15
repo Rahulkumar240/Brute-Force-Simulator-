@@ -1,0 +1,75 @@
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1a0000, #000000);
+      color: #fff;
+    }
+    nav {
+      background: #111;
+      padding: 1rem;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0;
+      margin: 0;
+    }
+    nav a {
+      color: #ff4d4d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-shadow: 0 0 5px red;
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background: #2b0000;
+      color: #ff3333;
+      font-size: 2rem;
+      text-shadow: 0 0 10px red;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+    }
+    h2 {
+      color: #ff4d4d;
+    }
+    label {
+      margin: 0.8rem 0 0.3rem;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid #ff1a1a;
+    }
+    button {
+      margin-top: 1rem;
+      background: #ff1a1a;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      color: #fff;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e60000;
+    }
+    .toggle {
+      margin: 1rem 0;
+    }
