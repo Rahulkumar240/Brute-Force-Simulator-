@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prevention Controls</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/prevention.css') }}">
+</head>
+<body>
+  <header>Prevention Controls</header>
+  <nav>
+    <ul>
+        <a href="/index">Home</a>
+        <a href="/attack">Attack</a>
+        <a href="/detection">Detection</a>
+        <a href="/logs">Logs</a>
+        <a href="/result">Result</a> 
+        <a href="/report">Report</a>
+        <a href="/account">My Account</a>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a> 
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Defensive Reaction Settings</h2>
+
+    <div class="toggle-group">
+      <label for="lockout">Simulate Lockout Mechanism</label>
+      <input type="checkbox" id="lockout">
+    </div>
+
+    <div class="toggle-group">
+      <label for="captcha">Enable Captcha Simulation</label>
+      <input type="checkbox" id="captcha">
+    </div>
+
+    <div class="toggle-group">
+      <label for="alert">Simulate Admin Alert & Logs</label>
+      <input type="checkbox" id="alert">
+    </div>
+
+    <h3>Block or Unblock IP</h3>
+    <form class="ip-form" id="blockForm">
+      <input type="text" id="block-ip" placeholder="Enter IP to Block">
+      <button class="btn" type="submit">Block</button>
+    </form>
+
+    <form class="ip-form" id="unblockForm">
+      <input type="text" id="unblock-ip" placeholder="Enter IP to Unblock">
+      <button class="btn" type="submit">Unblock</button>
+    </form>
+
+    <div class="feedback-message" id="ip-feedback"></div>
+
+    <div class="blocked-list">
+      <h3>Blocked IPs:</h3>
+      <ul id="blockedIpsList">
+        <!-- IP list will populate here -->
+      </ul>
+    </div>
+
+    <button class="btn" onclick="location.href='attack.html'">Back to Attack View</button>
+  </div>
+
+  <script>
+    const blockedIps = [];
+    const feedback = document.getElementById('ip-feedback');
+    const blockedList = document.getElementById('blockedIpsList');
+
+    function updateBlockedList() {
+      blockedList.innerHTML = '';
+      if (blockedIps.length === 0) {
+        blockedList.innerHTML = '<li>No IPs currently blocked.</li>';
+        return;
+      }
+      blockedIps.forEach(ip => {
+        const li = document.createElement('li');
+        li.textContent = ip;
+        blockedList.appendChild(li);
+      });
+    }
+
+    document.getElementById('blockForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const ip = document.getElementById('block-ip').value.trim();
+      if (ip && !blockedIps.includes(ip)) {
+        blockedIps.push(ip);
+        feedback.textContent = `✅ IP ${ip} has been blocked.`;
+        updateBlockedList();
+      } else {
+        feedback.textContent = `⚠️ IP already blocked or invalid.`;
+      }
+      this.reset();
+    });
+
+    document.getElementById('unblockForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const ip = document.getElementById('unblock-ip').value.trim();
+      const index = blockedIps.indexOf(ip);
+      if (index !== -1) {
+        blockedIps.splice(index, 1);
+        feedback.textContent = `🔓 IP ${ip} has been unblocked.`;
+        updateBlockedList();
+      } else {
+        feedback.textContent = `⚠️ IP not found in blocked list.`;
+      }
+      this.reset();
+    });
+
+    updateBlockedList();
+  </script>
+</body>
+</html>

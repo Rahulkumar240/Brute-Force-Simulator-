@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/account.css') }}">
+</head>
+<body>
+
+<header>
+  <h1>BruteForce Project</h1>
+  <nav>
+    <ul>
+      <li><a href="/index">Home</a></li>
+      <li><a href="/detection">Detection</a></li>
+      <li><a href="/prevention">Prevention</a></li>
+      <li><a href="/logs">Logs</a></li>
+      <li><a href="/result">Result</a></li>
+      <li><a href="/report">Report</a></li>
+      <li><a href="/account">My Account</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>My Account</h2>
+
+  <div class="detail-row">
+    <label>Username:</label>
+    <span>{{ username }}</span>
+  </div>
+
+  <div class="detail-row">
+    <label>Registered On:</label>
+    <span>{{ registered_on }}</span>
+  </div>
+
+  <button class="btn-logout" onclick="window.location.href='/logout'">Logout</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attack Simulation | BruteForce</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/attack.css') }}">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/index">Home</a></li>
+      <li><a href="/simulation">Simulate Attack</a></li>
+      <li><a href="/detection">Detection</a></li>
+      <li><a href="/prevention">Prevention</a></li>
+      <li><a href="/logs">Logs</a></li>
+      <li><a href="/result">Result</a></li>
+      <li><a href="/report">Report</a></li>
+      <li><a href="/account">My Account</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+    </ul>
+  </nav>
+
+  <header>Configure Attack Simulation</header>
+
+  <main>
+    <form id="attackForm">
+      <label for="targetType">Target Type</label>
+      <select id="targetType" required>
+        <option value="">-- Select Target --</option>
+        <option value="web_login">Web Login</option>
+        <option value="ssh">SSH</option>
+        <option value="ftp">FTP</option>
+        <option value="email">Email Account</option>
+        <option value="social_media">Social Media</option>
+      </select>
+
+      <label for="attackType">Attack Type</label>
+      <select id="attackType">
+        <option value="brute_force">Brute Force</option>
+        <option value="dictionary">Dictionary</option>
+      </select>
+
+      <label for="wordlist">Upload Wordlist</label>
+      <input type="file" id="wordlist" />
+
+      <label for="min_length">Min Password Length</label>
+      <input type="number" id="min_length" placeholder="e.g., 6" />
+
+      <label for="charset">Charset</label>
+      <input type="text" id="charset" placeholder="e.g., a-z, A-Z, 0-9" />
+
+      <div class="toggle">
+        <label><input type="checkbox" id="detectionModule" checked /> Enable Detection</label>
+      </div>
+
+      <button type="button" onclick="startSimulation()">Start Simulation</button>
+    </form>
+  </main>
+
+  <script>
+    function startSimulation() {
+      const detectionEnabled = document.getElementById("detectionModule").checked;
+      localStorage.setItem("detectionEnabled", detectionEnabled);
+      localStorage.setItem("attackStarted", "true");
+      window.location.href = "/simulation";
+    }
+  </script>
+
+</body>
+</html>

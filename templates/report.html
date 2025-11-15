@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Attack Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/report.css') }}">
+</head>
+<body>
+  <header>Generated Attack Report</header>
+  <nav>
+  <a href="/index">Home</a>
+  <a href="/attack">Attack</a>
+  <a href="/detection">Detection</a>
+  <a href="/prevention">Prevention</a>
+  <a href="/logs">Logs</a> 
+  <a href="/result">Result</a>
+  <a href="/account">My Account</a>
+  <a href="/login">Login</a>
+  <a href="/register">Register</a> 
+</nav>
+
+  <div class="container">
+    <h2>Live Report Preview</h2>
+    <pre id="reportContent">
+{
+  "attackType": "Brute Force",
+  "passwordCracked": true,
+  "timeTaken": "12.8s",
+  "attempts": 2345,
+  "target": "test@example.com",
+  "detectionTriggered": true,
+  "prevention": {
+    "captcha": true,
+    "lockout": false,
+    "adminAlert": true,
+    "ipBlocked": true
+  },
+  "timestamp": "2025-07-22T10:30:00Z"
+}
+    </pre>
+
+    <div class="btn-group">
+      <button class="btn" onclick="download('json')">Download JSON</button>
+      <button class="btn" onclick="download('csv')">Download CSV</button>
+      <button class="btn" onclick="location.href='index.html'">Back to Home</button>
+    </div>
+  </div>
+
+  <script>
+    const reportData = {
+      attackType: "Brute Force",
+      passwordCracked: true,
+      timeTaken: "12.8s",
+      attempts: 2345,
+      target: "test@example.com",
+      detectionTriggered: true,
+      prevention: {
+        captcha: true,
+        lockout: false,
+        adminAlert: true,
+        ipBlocked: true
+      },
+      timestamp: new Date().toISOString()
+    };
+
+    function download(type) {
+      let dataStr;
+      let filename;
+      if (type === "json") {
+        dataStr = JSON.stringify(reportData, null, 2);
+        filename = "attack_report.json";
+      } else {
+        const headers = "attackType,passwordCracked,timeTaken,attempts,target,detectionTriggered,captcha,lockout,adminAlert,ipBlocked,timestamp\n";
+        const values = [
+          reportData.attackType,
+          reportData.passwordCracked,
+          reportData.timeTaken,
+          reportData.attempts,
+          reportData.target,
+          reportData.detectionTriggered,
+          reportData.prevention.captcha,
+          reportData.prevention.lockout,
+          reportData.prevention.adminAlert,
+          reportData.prevention.ipBlocked,
+          reportData.timestamp
+        ].join(",");
+        dataStr = headers + values;
+        filename = "attack_report.csv";
+      }
+
+      const blob = new Blob([dataStr], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    }
+  </script>
+</body>
+</html>

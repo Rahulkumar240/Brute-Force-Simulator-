@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Security Logs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/logs.css') }}">
+</head>
+<body>
+  <header>System Logs & Monitoring</header>
+  <nav>
+  <a href="/index">Home</a>
+  <a href="/attack">Attack</a>
+  <a href="/detection">Detection</a>
+  <a href="/prevention">Prevention</a>
+  <a href="/result">Result</a> 
+  <a href="/report">Report</a>
+  <a href="/account">My Account</a>
+  <a href="/login">Login</a>
+  <a href="/register">Register</a> 
+</nav>
+
+
+  <div class="container">
+    <h2>Security Logs</h2>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search logs by keyword or type (detection, prevention, attack)..." />
+    </div>
+
+    <div class="logs" id="logContainer"></div>
+  </div>
+
+  <script>
+    const logs = [
+      {
+        type: "attack",
+        message: "Brute force attack detected on user admin@site.com",
+        time: "2025-07-22 10:34:21",
+        sourceIP: "192.168.1.5"
+      },
+      {
+        type: "detection",
+        message: "Captcha triggered after 5 failed attempts",
+        time: "2025-07-22 10:34:30",
+        sourceIP: "192.168.1.5"
+      },
+      {
+        type: "prevention",
+        message: "IP blocked after repeated suspicious activity",
+        time: "2025-07-22 10:34:45",
+        sourceIP: "192.168.1.5"
+      },
+      {
+        type: "attack",
+        message: "Credential stuffing attempt on user test@example.com",
+        time: "2025-07-22 10:40:02",
+        sourceIP: "172.16.0.2"
+      },
+      {
+        type: "detection",
+        message: "Lockout policy applied after threshold reached",
+        time: "2025-07-22 10:41:15",
+        sourceIP: "172.16.0.2"
+      },
+      {
+        type: "prevention",
+        message: "Admin alerted for excessive brute-force attempts",
+        time: "2025-07-22 10:42:00",
+        sourceIP: "172.16.0.2"
+      }
+    ];
+
+    const container = document.getElementById("logContainer");
+
+    function renderLogs(filter = "") {
+      container.innerHTML = "";
+
+      logs.filter(log =>
+        log.message.toLowerCase().includes(filter.toLowerCase()) ||
+        log.type.toLowerCase().includes(filter.toLowerCase())
+      ).forEach(log => {
+        const entry = document.createElement("div");
+        entry.className = `log-entry type-${log.type}`;
+        entry.innerHTML = `
+          <p><strong>Type:</strong> ${log.type.toUpperCase()}</p>
+          <p><strong>Message:</strong> ${log.message}</p>
+          <p><strong>Time:</strong> ${log.time}</p>
+          <p><strong>Source IP:</strong> ${log.sourceIP}</p>
+        `;
+        container.appendChild(entry);
+      });
+
+      if (!container.innerHTML) {
+        container.innerHTML = "<p>No logs found matching your search.</p>";
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      renderLogs(e.target.value);
+    });
+
+    renderLogs();
+  </script>
+</body>
+</html>

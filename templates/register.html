@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/register.css') }}">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-links">
+      <a href="/index">Home</a>
+      <a href="/attack">Attack</a>
+      <a href="/detection">Detection</a>
+      <a href="/prevention">Prevention</a>
+      <a href="/logs">Logs</a>
+      <a href="/report">Report</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+  </nav>
+
+  <!-- Register Form -->
+  <div class="register-container text-white">
+    <h2>Create Account</h2>
+    <form action="/register" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+
+      <label for="confirm">Confirm Password</label>
+      <input type="password" name="confirm" id="confirm" required>
+
+      <!-- Show/Hide toggle -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="togglePassword">
+        <label class="form-check-label" for="togglePassword">Show Password</label>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+    <div class="nav-back">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const togglePassword = document.getElementById('togglePassword');
+    togglePassword.addEventListener('change', () => {
+      const pw = document.getElementById('password');
+      const confirm = document.getElementById('confirm');
+      const type = togglePassword.checked ? 'text' : 'password';
+      pw.type = type;
+      confirm.type = type;
+    });
+  </script>
+
+</body>
+</html>

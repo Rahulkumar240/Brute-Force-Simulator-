@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Simulation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/simulation.css') }}">
+</head>
+<body>
+
+<nav>
+  <ul>
+    <a href="/index">Home</a>
+      <a href="/attack">Attack</a>
+      <a href="/detection">Detection</a>
+      <a href="/prevention">Prevention</a>
+      <a href="/logs">Logs</a>
+      <a href="/result">Result</a>
+      <a href="/report">Report</a>
+      <a href="/account">My Account</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </ul>
+  </nav>
+
+<header>🔴 Simulation Live</header>
+
+<main>
+  <div>
+    <button onclick="start()">▶ Start</button>
+    <button onclick="pause()">⏸ Pause</button>
+    <button onclick="resume()">⏯ Resume</button>
+    <button onclick="stop()">⏹ Stop</button>
+  </div>
+
+  <h3>Metrics</h3>
+  <p>Attempts/sec: <span id="rate">0</span></p>
+  <p>Passwords Tried: <span id="tried">0</span></p>
+  <p>ETA: <span id="eta">--</span></p>
+
+  <h3>Detection Logs</h3>
+  <div id="logs"></div>
+</main>
+
+<script>
+  let running = false;
+  let tried = 0;
+  let interval;
+
+  function log(msg) {
+    const logs = document.getElementById("logs");
+    const entry = document.createElement("div");
+    entry.className = "log-entry";
+    entry.textContent = new Date().toLocaleTimeString() + " - " + msg;
+    logs.appendChild(entry);
+    logs.scrollTop = logs.scrollHeight;
+  }
+
+  function updateMetrics() {
+    if (!running) return;
+    const rate = Math.floor(Math.random() * 10) + 5;
+    tried += rate;
+    document.getElementById("rate").innerText = rate;
+    document.getElementById("tried").innerText = tried;
+    document.getElementById("eta").innerText = Math.max(0, 1000 - tried) + " left";
+
+    const detect = localStorage.getItem("detectionEnabled") === "true";
+    if (detect) {
+      if (tried >= 100) log("⚠ Too many attempts");
+      if (tried >= 200) log("🔒 Captcha Triggered");
+      if (tried >= 300) log("🚫 Lockout Initiated");
+    }
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    log("Simulation started.");
+    interval = setInterval(updateMetrics, 1000);
+  }
+
+  function pause() {
+    running = false;
+    clearInterval(interval);
+    log("Simulation paused.");
+  }
+
+  function resume() {
+    if (running) return;
+    running = true;
+    log("Simulation resumed.");
+    interval = setInterval(updateMetrics, 1000);
+  }
+
+  function stop() {
+    running = false;
+    tried = 0;
+    clearInterval(interval);
+    document.getElementById("rate").innerText = 0;
+    document.getElementById("tried").innerText = 0;
+    document.getElementById("eta").innerText = "--";
+    log("Simulation stopped.");
+  }
+</script>
+
+</body>
+</html>

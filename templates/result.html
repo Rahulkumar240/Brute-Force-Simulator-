@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attack Result Summary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styling/result.css' ) }}">
+</head>
+<body>
+  <header>Attack Results</header>
+  <nav>
+  <a href="/index">Home</a>
+  <a href="/attack">Attack</a>
+  <a href="/detection">Detection</a>
+  <a href="/prevention">Prevention</a>
+  <a href="/logs">Logs</a> 
+  <a href="/report">Report</a>
+  <a href="/account">My Account</a>
+  <a href="/login">Login</a>
+  <a href="/register">Register</a> 
+</nav>
+
+  <div class="container">
+    <h2>Latest Attack Outcome</h2>
+    <div class="result-box" id="latestResultBox"></div>
+
+    <h3>Past Results History</h3>
+    <div id="historyResults"></div>
+  </div>
+
+  <script>
+    const results = [
+      {
+        id: 6,
+        method: "Brute Force",
+        target: "admin@xyz.com",
+        cracked: true,
+        time: "14.6s",
+        attempts: 1500,
+        detection: "Triggered",
+        prevention: "Captcha, Lockout"
+      },
+      {
+        id: 5,
+        method: "Dictionary",
+        target: "user@test.com",
+        cracked: false,
+        time: "9.3s",
+        attempts: 850,
+        detection: "None",
+        prevention: "N/A"
+      },
+      {
+        id: 4,
+        method: "Brute Force",
+        target: "root@server.com",
+        cracked: true,
+        time: "18.0s",
+        attempts: 1700,
+        detection: "Triggered",
+        prevention: "IP Block"
+      },
+      {
+        id: 3,
+        method: "Credential Stuffing",
+        target: "staff@corp.org",
+        cracked: false,
+        time: "5.7s",
+        attempts: 400,
+        detection: "Triggered",
+        prevention: "Lockout"
+      }
+    ];
+
+    const latestResult = results[0];
+    const latestBox = document.getElementById("latestResultBox");
+
+    latestBox.innerHTML = `
+      <p><strong>Method:</strong> ${latestResult.method}</p>
+      <p><strong>Target:</strong> ${latestResult.target}</p>
+      <p><strong>Password Cracked:</strong> ${latestResult.cracked ? "✅ Yes" : "❌ No"}</p>
+      <p><strong>Time Taken:</strong> ${latestResult.time}</p>
+      <p><strong>Attempts:</strong> ${latestResult.attempts}</p>
+      <p><strong>Detection Logs:</strong> ${latestResult.detection}</p>
+      <p><strong>Prevention Triggered:</strong> ${latestResult.prevention}</p>
+      <button class="btn" onclick='download(${JSON.stringify(latestResult)}, "json")'>Download JSON</button>
+      <button class="btn" onclick='download(${JSON.stringify(latestResult)}, "csv")'>Download CSV</button>
+    `;
+
+    const historyBox = document.getElementById("historyResults");
+
+    results.slice(1).forEach(result => {
+      const div = document.createElement("div");
+      div.classList.add("result-box");
+      div.innerHTML = `
+        <p><strong>Method:</strong> ${result.method}</p>
+        <p><strong>Target:</strong> ${result.target}</p>
+        <p><strong>Password Cracked:</strong> ${result.cracked ? "✅ Yes" : "❌ No"}</p>
+        <p><strong>Time Taken:</strong> ${result.time}</p>
+        <p><strong>Attempts:</strong> ${result.attempts}</p>
+        <p><strong>Detection Logs:</strong> ${result.detection}</p>
+        <p><strong>Prevention Triggered:</strong> ${result.prevention}</p>
+        <button class="btn" onclick='download(${JSON.stringify(result)}, "json")'>JSON</button>
+        <button class="btn" onclick='download(${JSON.stringify(result)}, "csv")'>CSV</button>
+        <button class="btn" onclick='location.href="attack.html"'>Retry</button>
+      `;
+      historyBox.appendChild(div);
+    });
+
+    function download(data, format) {
+      let content, filename;
+
+      if (format === "json") {
+        content = JSON.stringify(data, null, 2);
+        filename = `result_${data.id}.json`;
+      } else {
+        const keys = Object.keys(data);
+        const values = Object.values(data);
+        content = keys.join(",") + "\n" + values.join(",");
+        filename = `result_${data.id}.csv`;
+      }
+
+      const blob = new Blob([content], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    }
+  </script>
+</body>
+</html>
